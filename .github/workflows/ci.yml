@@ -84,4 +84,4 @@ jobs:
 
       - name: Run PHPUnit
         working-directory: lumen-api
-        run: vendor/bin/phpunit --colors=always
+        run: php vendor/bin/phpunit --colors=always
