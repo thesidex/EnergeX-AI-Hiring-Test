@@ -1,0 +1,16 @@
+:root { font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif; }
+body { margin: 0; background:#0b1220; color:#e6eefb; }
+.container { max-width: 860px; margin: 24px auto; padding: 0 16px; }
+.nav { display:flex; align-items:center; gap:12px; padding:12px 16px; background:#0f1830; border-bottom:1px solid #1e2b4a; }
+.nav a { color:#c9dcff; text-decoration:none; }
+.spacer { flex:1; }
+.card { background:#0f1830; border:1px solid #1e2b4a; padding:16px; border-radius:12px; }
+.mb { margin-bottom:16px; }
+input, textarea, button { width:100%; padding:10px; margin:6px 0; border-radius:8px; border:1px solid #1e2b4a; background:#0b1220; color:#e6eefb; }
+button { cursor:pointer; }
+button.danger { border-color:#5b1d1d; }
+.error { color:#ff8f8f; }
+.list { list-style:none; padding:0; display: grid; gap:12px; }
+.post-head { display:flex; justify-content:space-between; align-items:center; margin-bottom:6px; }
+.actions { display:flex; gap:8px; }
+.me-2{ margin-right:8px; }

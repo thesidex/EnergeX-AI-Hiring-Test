@@ -1,0 +1,71 @@
+[2025-09-09 01:56:40] local.ERROR: Posts index error {"ex":"Redis connection [default] not configured."} 
+[2025-09-09 01:56:40] local.ERROR: Posts index error {"ex":"Redis connection [default] not configured."} 
+[2025-09-09 01:57:54] local.ERROR: Posts index error {"ex":"Redis connection [default] not configured."} 
+[2025-09-09 01:57:55] local.ERROR: Posts index error {"ex":"Redis connection [default] not configured."} 
+[2025-09-09 01:58:26] local.ERROR: Posts index error {"ex":"Redis connection [default] not configured."} 
+[2025-09-09 01:58:27] local.ERROR: Posts index error {"ex":"Redis connection [default] not configured."} 
+[2025-09-09 01:59:48] local.ERROR: Posts index error {"ex":"Redis connection [default] not configured."} 
+[2025-09-09 02:02:06] local.ERROR: Posts index error {"ex":"Redis connection [default] not configured."} 
+[2025-09-09 02:02:06] local.ERROR: Posts index error {"ex":"Redis connection [default] not configured."} 
+[2025-09-09 02:02:29] local.ERROR: Posts store error {"ex":"Redis connection [default] not configured."} 
+[2025-09-09 02:06:14] local.ERROR: Posts index error {"ex":"Redis connection [default] not configured."} 
+[2025-09-09 02:06:15] local.ERROR: Posts index error {"ex":"Redis connection [default] not configured."} 
+[2025-09-09 02:06:35] local.ERROR: Posts store error {"ex":"Redis connection [default] not configured."} 
+[2025-09-09 02:08:40] local.ERROR: Posts store error {"ex":"Redis connection [default] not configured."} 
+[2025-09-09 02:11:34] local.ERROR: Posts index error {"ex":"Redis connection [default] not configured."} 
+[2025-09-09 02:11:34] local.ERROR: Posts index error {"ex":"Redis connection [default] not configured."} 
+[2025-09-09 02:15:03] local.ERROR: Posts store error {"ex":"Redis connection [default] not configured."} 
+[2025-09-09 02:21:21] local.ERROR: There are no commands defined in the "config" namespace. {"exception":"[object] (Symfony\\Component\\Console\\Exception\\NamespaceNotFoundException(code: 0): There are no commands defined in the \"config\" namespace. at C:\\dev\\Test\\EnergeX-AI-Hiring-Test-main\\Assessment\\lumen-api\\vendor\\symfony\\console\\Application.php:669)
+[stacktrace]
+#0 C:\\dev\\Test\\EnergeX-AI-Hiring-Test-main\\Assessment\\lumen-api\\vendor\\symfony\\console\\Application.php(720): Symfony\\Component\\Console\\Application->findNamespace()
+#1 C:\\dev\\Test\\EnergeX-AI-Hiring-Test-main\\Assessment\\lumen-api\\vendor\\symfony\\console\\Application.php(266): Symfony\\Component\\Console\\Application->find()
+#2 C:\\dev\\Test\\EnergeX-AI-Hiring-Test-main\\Assessment\\lumen-api\\vendor\\symfony\\console\\Application.php(175): Symfony\\Component\\Console\\Application->doRun()
+#3 C:\\dev\\Test\\EnergeX-AI-Hiring-Test-main\\Assessment\\lumen-api\\vendor\\laravel\\lumen-framework\\src\\Console\\Kernel.php(160): Symfony\\Component\\Console\\Application->run()
+#4 C:\\dev\\Test\\EnergeX-AI-Hiring-Test-main\\Assessment\\lumen-api\\artisan(10): Laravel\\Lumen\\Console\\Kernel->handle()
+#5 {main}
+"} 
+[2025-09-09 02:22:42] local.ERROR: There are no commands defined in the "config" namespace. {"exception":"[object] (Symfony\\Component\\Console\\Exception\\NamespaceNotFoundException(code: 0): There are no commands defined in the \"config\" namespace. at C:\\dev\\Test\\EnergeX-AI-Hiring-Test-main\\Assessment\\lumen-api\\vendor\\symfony\\console\\Application.php:669)
+[stacktrace]
+#0 C:\\dev\\Test\\EnergeX-AI-Hiring-Test-main\\Assessment\\lumen-api\\vendor\\symfony\\console\\Application.php(720): Symfony\\Component\\Console\\Application->findNamespace()
+#1 C:\\dev\\Test\\EnergeX-AI-Hiring-Test-main\\Assessment\\lumen-api\\vendor\\symfony\\console\\Application.php(266): Symfony\\Component\\Console\\Application->find()
+#2 C:\\dev\\Test\\EnergeX-AI-Hiring-Test-main\\Assessment\\lumen-api\\vendor\\symfony\\console\\Application.php(175): Symfony\\Component\\Console\\Application->doRun()
+#3 C:\\dev\\Test\\EnergeX-AI-Hiring-Test-main\\Assessment\\lumen-api\\vendor\\laravel\\lumen-framework\\src\\Console\\Kernel.php(160): Symfony\\Component\\Console\\Application->run()
+#4 C:\\dev\\Test\\EnergeX-AI-Hiring-Test-main\\Assessment\\lumen-api\\artisan(10): Laravel\\Lumen\\Console\\Kernel->handle()
+#5 {main}
+"} 
+[2025-09-09 02:23:15] local.ERROR: php_network_getaddresses: getaddrinfo for redis failed: No such host is known [tcp://redis:6379] {"exception":"[object] (Predis\\Connection\\ConnectionException(code: 0): php_network_getaddresses: getaddrinfo for redis failed: No such host is known [tcp://redis:6379] at C:\\dev\\Test\\EnergeX-AI-Hiring-Test-main\\Assessment\\lumen-api\\vendor\\predis\\predis\\src\\Connection\\AbstractConnection.php:144)
+[stacktrace]
+#0 C:\\dev\\Test\\EnergeX-AI-Hiring-Test-main\\Assessment\\lumen-api\\vendor\\predis\\predis\\src\\Connection\\StreamConnection.php(130): Predis\\Connection\\AbstractConnection->onConnectionError()
+#1 C:\\dev\\Test\\EnergeX-AI-Hiring-Test-main\\Assessment\\lumen-api\\vendor\\predis\\predis\\src\\Connection\\StreamConnection.php(175): Predis\\Connection\\StreamConnection->createStreamSocket()
+#2 C:\\dev\\Test\\EnergeX-AI-Hiring-Test-main\\Assessment\\lumen-api\\vendor\\predis\\predis\\src\\Connection\\StreamConnection.php(89): Predis\\Connection\\StreamConnection->tcpStreamInitializer()
+#3 C:\\dev\\Test\\EnergeX-AI-Hiring-Test-main\\Assessment\\lumen-api\\vendor\\predis\\predis\\src\\Connection\\AbstractConnection.php(85): Predis\\Connection\\StreamConnection->createResource()
+#4 C:\\dev\\Test\\EnergeX-AI-Hiring-Test-main\\Assessment\\lumen-api\\vendor\\predis\\predis\\src\\Connection\\StreamConnection.php(255): Predis\\Connection\\AbstractConnection->connect()
+#5 C:\\dev\\Test\\EnergeX-AI-Hiring-Test-main\\Assessment\\lumen-api\\vendor\\predis\\predis\\src\\Connection\\AbstractConnection.php(169): Predis\\Connection\\StreamConnection->connect()
+#6 C:\\dev\\Test\\EnergeX-AI-Hiring-Test-main\\Assessment\\lumen-api\\vendor\\predis\\predis\\src\\Connection\\StreamConnection.php(290): Predis\\Connection\\AbstractConnection->getResource()
+#7 C:\\dev\\Test\\EnergeX-AI-Hiring-Test-main\\Assessment\\lumen-api\\vendor\\predis\\predis\\src\\Connection\\StreamConnection.php(397): Predis\\Connection\\StreamConnection->write()
+#8 C:\\dev\\Test\\EnergeX-AI-Hiring-Test-main\\Assessment\\lumen-api\\vendor\\predis\\predis\\src\\Connection\\AbstractConnection.php(122): Predis\\Connection\\StreamConnection->writeRequest()
+#9 C:\\dev\\Test\\EnergeX-AI-Hiring-Test-main\\Assessment\\lumen-api\\vendor\\predis\\predis\\src\\Client.php(381): Predis\\Connection\\AbstractConnection->executeCommand()
+#10 C:\\dev\\Test\\EnergeX-AI-Hiring-Test-main\\Assessment\\lumen-api\\vendor\\predis\\predis\\src\\Client.php(335): Predis\\Client->executeCommand()
+#11 C:\\dev\\Test\\EnergeX-AI-Hiring-Test-main\\Assessment\\lumen-api\\vendor\\illuminate\\redis\\Connections\\Connection.php(116): Predis\\Client->__call()
+#12 C:\\dev\\Test\\EnergeX-AI-Hiring-Test-main\\Assessment\\lumen-api\\vendor\\illuminate\\redis\\Connections\\Connection.php(229): Illuminate\\Redis\\Connections\\Connection->command()
+#13 C:\\dev\\Test\\EnergeX-AI-Hiring-Test-main\\Assessment\\lumen-api\\vendor\\illuminate\\cache\\RedisStore.php(248): Illuminate\\Redis\\Connections\\Connection->__call()
+#14 C:\\dev\\Test\\EnergeX-AI-Hiring-Test-main\\Assessment\\lumen-api\\vendor\\illuminate\\cache\\Repository.php(692): Illuminate\\Cache\\RedisStore->flush()
+#15 C:\\dev\\Test\\EnergeX-AI-Hiring-Test-main\\Assessment\\lumen-api\\vendor\\illuminate\\cache\\Console\\ClearCommand.php(69): Illuminate\\Cache\\Repository->__call()
+#16 C:\\dev\\Test\\EnergeX-AI-Hiring-Test-main\\Assessment\\lumen-api\\vendor\\illuminate\\container\\BoundMethod.php(36): Illuminate\\Cache\\Console\\ClearCommand->handle()
+#17 C:\\dev\\Test\\EnergeX-AI-Hiring-Test-main\\Assessment\\lumen-api\\vendor\\illuminate\\container\\Util.php(41): Illuminate\\Container\\BoundMethod::{closure:Illuminate\\Container\\BoundMethod::call():35}()
+#18 C:\\dev\\Test\\EnergeX-AI-Hiring-Test-main\\Assessment\\lumen-api\\vendor\\illuminate\\container\\BoundMethod.php(93): Illuminate\\Container\\Util::unwrapIfClosure()
+#19 C:\\dev\\Test\\EnergeX-AI-Hiring-Test-main\\Assessment\\lumen-api\\vendor\\illuminate\\container\\BoundMethod.php(35): Illuminate\\Container\\BoundMethod::callBoundMethod()
+#20 C:\\dev\\Test\\EnergeX-AI-Hiring-Test-main\\Assessment\\lumen-api\\vendor\\illuminate\\container\\Container.php(662): Illuminate\\Container\\BoundMethod::call()
+#21 C:\\dev\\Test\\EnergeX-AI-Hiring-Test-main\\Assessment\\lumen-api\\vendor\\illuminate\\console\\Command.php(211): Illuminate\\Container\\Container->call()
+#22 C:\\dev\\Test\\EnergeX-AI-Hiring-Test-main\\Assessment\\lumen-api\\vendor\\symfony\\console\\Command\\Command.php(326): Illuminate\\Console\\Command->execute()
+#23 C:\\dev\\Test\\EnergeX-AI-Hiring-Test-main\\Assessment\\lumen-api\\vendor\\illuminate\\console\\Command.php(180): Symfony\\Component\\Console\\Command\\Command->run()
+#24 C:\\dev\\Test\\EnergeX-AI-Hiring-Test-main\\Assessment\\lumen-api\\vendor\\symfony\\console\\Application.php(1078): Illuminate\\Console\\Command->run()
+#25 C:\\dev\\Test\\EnergeX-AI-Hiring-Test-main\\Assessment\\lumen-api\\vendor\\symfony\\console\\Application.php(324): Symfony\\Component\\Console\\Application->doRunCommand()
+#26 C:\\dev\\Test\\EnergeX-AI-Hiring-Test-main\\Assessment\\lumen-api\\vendor\\symfony\\console\\Application.php(175): Symfony\\Component\\Console\\Application->doRun()
+#27 C:\\dev\\Test\\EnergeX-AI-Hiring-Test-main\\Assessment\\lumen-api\\vendor\\laravel\\lumen-framework\\src\\Console\\Kernel.php(160): Symfony\\Component\\Console\\Application->run()
+#28 C:\\dev\\Test\\EnergeX-AI-Hiring-Test-main\\Assessment\\lumen-api\\artisan(10): Laravel\\Lumen\\Console\\Kernel->handle()
+#29 {main}
+"} 
+[2025-09-09 02:23:47] local.ERROR: Posts store error {"ex":"php_network_getaddresses: getaddrinfo for redis failed: No such host is known [tcp://redis:6379]"} 
+[2025-09-09 02:24:26] local.ERROR: Posts store error {"ex":"php_network_getaddresses: getaddrinfo for redis failed: No such host is known [tcp://redis:6379]"} 
+[2025-09-09 02:24:40] local.ERROR: Posts store error {"ex":"php_network_getaddresses: getaddrinfo for redis failed: No such host is known [tcp://redis:6379]"} 
