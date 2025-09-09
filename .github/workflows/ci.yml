@@ -40,6 +40,7 @@ jobs:
           key: composer-${{ runner.os }}-${{ hashFiles('**/composer.lock') }}
 
       - name: Install Composer deps
+        working-directory: lumen-api
         run: composer install --no-interaction --prefer-dist --no-progress
 
       # Use a CI-specific env so tests don’t depend on Redis, etc.
@@ -82,4 +83,5 @@ jobs:
       #   run: php artisan migrate --force
 
       - name: Run PHPUnit
+        working-directory: lumen-api
         run: vendor/bin/phpunit --colors=always
