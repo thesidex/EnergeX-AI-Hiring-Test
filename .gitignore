@@ -1,0 +1,16 @@
+node_modules/
+frontend/node_modules/
+node-cache/node_modules/
+
+*.log
+
+.env
+frontend/.env
+lumen-api/.env
+node-cache/.env
+
+dist/
+frontend/dist/
+node-cache/dist/
+
+*.pid

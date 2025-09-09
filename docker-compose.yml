@@ -1,0 +1,125 @@
+version: "3.9"
+
+services:
+  mysql:
+    image: mysql:8.0
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: energex
+      MYSQL_USER: app
+      MYSQL_PASSWORD: app
+    ports:
+      - "3308:3306"
+    volumes:
+      - mysql_data:/var/lib/mysql
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "127.0.0.1", "-u", "app", "-papp"]
+      interval: 5s
+      timeout: 5s
+      retries: 20
+    restart: unless-stopped
+
+  redis:
+    image: redis:7
+    ports:
+      - "6379:6379"
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 5s
+      timeout: 5s
+      retries: 20
+    restart: unless-stopped
+
+  lumen-api:
+    build: ./lumen-api
+    ports:
+      - "8000:8000"
+    environment:
+      # App
+      APP_ENV: local
+      APP_DEBUG: "false"
+      APP_TIMEZONE: UTC
+      APP_NAME: energeX-api
+
+      # DB
+      DB_CONNECTION: mysql
+      DB_HOST: mysql
+      DB_PORT: 3306
+      DB_DATABASE: energex
+      DB_USERNAME: app
+      DB_PASSWORD: app
+
+      # Cache / Redis
+      CACHE_DRIVER: redis
+      CACHE_PREFIX: energeX_cache
+      REDIS_CLIENT: predis
+      REDIS_HOST: redis
+      REDIS_PORT: 6379
+      REDIS_PASSWORD:
+
+      # JWT
+      JWT_SECRET: change_me
+      JWT_TTL: 3600
+      JWT_ISS: energeX-api
+      JWT_AUD: energeX-clients
+      JWT_LEEWAY: 60
+
+      # CORS
+      CORS_ALLOWED_ORIGINS: http://localhost:5173
+      CORS_ALLOW_CREDENTIALS: "false"
+      CORS_EXPOSE_HEADERS:
+      CORS_MAX_AGE: 600
+
+      # Cache TTL for posts list/item (optional)
+      CACHE_TTL: 60
+    depends_on:
+      mysql:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+    restart: unless-stopped
+
+  node-cache:
+    build: ./node-cache
+    ports:
+      - "4000:4000"
+    environment:
+      PORT: 4000
+      CORS_ORIGIN: http://localhost:5173
+
+      # Redis (service host)
+      REDIS_HOST: redis
+      REDIS_PORT: 6379
+
+      # MySQL
+      MYSQL_HOST: mysql
+      MYSQL_PORT: 3306
+      MYSQL_USER: app
+      MYSQL_PASSWORD: app
+      MYSQL_DATABASE: energex
+
+      CACHE_TTL: 120
+    depends_on:
+      mysql:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+    restart: unless-stopped
+
+  frontend:
+    build:
+      context: ./frontend
+    ports:
+      - "5173:80"
+    environment:
+      VITE_API_BASE: http://localhost:8000
+      VITE_CACHE_BASE: http://localhost:4000
+    depends_on:
+      lumen-api:
+        condition: service_started
+      node-cache:
+        condition: service_started
+    restart: unless-stopped
+
+volumes:
+  mysql_data:
