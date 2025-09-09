@@ -7,20 +7,9 @@ on:
 jobs:
   php-tests:
     runs-on: ubuntu-latest
-
-    services:
-      mysql:
-        image: mysql:8.0
-        env:
-          MYSQL_ROOT_PASSWORD: root
-          MYSQL_DATABASE: energex_test
-        ports:
-          - 3306:3306
-        options: >-
-          --health-cmd="mysqladmin ping -h 127.0.0.1 -proot --silent"
-          --health-interval=10s
-          --health-timeout=5s
-          --health-retries=10
+    defaults:
+      run:
+        working-directory: lumen-api
 
     steps:
       - name: Checkout
@@ -30,21 +19,27 @@ jobs:
         uses: shivammathur/setup-php@v2
         with:
           php-version: '8.2'
-          extensions: mbstring, pdo_mysql, tokenizer, dom, fileinfo
+          tools: composer
+          extensions: mbstring, pdo_sqlite, sqlite, tokenizer, dom, fileinfo
           coverage: none
 
       - name: Cache Composer
         uses: actions/cache@v4
         with:
-          path: vendor
-          key: composer-${{ runner.os }}-${{ hashFiles('**/composer.lock') }}
+          path: lumen-api/vendor
+          key: composer-${{ runner.os }}-${{ hashFiles('lumen-api/composer.lock') }}
+          restore-keys: |
+            composer-${{ runner.os }}-
 
       - name: Install Composer deps
-        working-directory: lumen-api
         run: composer install --no-interaction --prefer-dist --no-progress
 
-      # Use a CI-specific env so tests don’t depend on Redis, etc.
-      - name: Write .env for CI
+      - name: Prepare SQLite for tests
+        run: |
+          mkdir -p database
+          : > database/testing.sqlite
+
+      - name: Write .env for CI (SQLite + array cache)
         run: |
           cat > .env << 'EOF'
           APP_ENV=testing
@@ -52,17 +47,12 @@ jobs:
           APP_TIMEZONE=UTC
           APP_NAME=energeX-api
 
-          DB_CONNECTION=mysql
-          DB_HOST=127.0.0.1
-          DB_PORT=3306
-          DB_DATABASE=energeX_test
-          DB_USERNAME=root
-          DB_PASSWORD=root
+          DB_CONNECTION=sqlite
+          DB_DATABASE=database/testing.sqlite
 
-          # Keep tests simple & fast: in-memory cache
           CACHE_DRIVER=array
+          QUEUE_CONNECTION=sync
 
-          # JWT (any non-empty secret)
           JWT_SECRET=ci-secret
           JWT_TTL=3600
           JWT_ISS=energeX-api
@@ -70,18 +60,7 @@ jobs:
           JWT_LEEWAY=60
           EOF
 
-      - name: Wait for MySQL
-        run: |
-          sudo apt-get update && sudo apt-get install -y mysql-client
-          until mysqladmin ping -h 127.0.0.1 -proot --silent; do
-            echo "Waiting for MySQL…"
-            sleep 2
-          done
-
-      # If your migrations are needed outside tests, uncomment:
-      # - name: Migrate
-      #   run: php artisan migrate --force
-
       - name: Run PHPUnit
-        working-directory: lumen-api
+        env:
+          APP_ENV: testing
         run: php vendor/bin/phpunit --colors=always
