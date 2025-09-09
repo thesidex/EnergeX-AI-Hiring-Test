@@ -7,6 +7,8 @@ on:
 jobs:
   php-tests:
     runs-on: ubuntu-latest
+
+    # All commands run inside lumen-api/
     defaults:
       run:
         working-directory: lumen-api
@@ -34,14 +36,17 @@ jobs:
       - name: Install Composer deps
         run: composer install --no-interaction --prefer-dist --no-progress
 
-      - name: Prepare SQLite for tests
+      - name: Prepare SQLite DB file
         run: |
           mkdir -p database
           : > database/testing.sqlite
+          ls -lah database
 
-      - name: Write .env for CI (SQLite + array cache)
+      # Write BOTH .env and .env.testing to be extra explicit
+      - name: Write .env and .env.testing (SQLite + array cache)
         run: |
-          cat > .env << 'EOF'
+          for f in .env .env.testing; do
+          cat > "$f" << 'EOF'
           APP_ENV=testing
           APP_DEBUG=false
           APP_TIMEZONE=UTC
@@ -59,8 +64,19 @@ jobs:
           JWT_AUD=energeX-clients
           JWT_LEEWAY=60
           EOF
+          done
+          echo "----- .env -----"
+          cat .env
+          echo "----- .env.testing -----"
+          cat .env.testing
 
+      # Some projects pin DB settings in phpunit.xml; pass env here to override
       - name: Run PHPUnit
         env:
           APP_ENV: testing
+          DB_CONNECTION: sqlite
+          DB_DATABASE: database/testing.sqlite
+          CACHE_DRIVER: array
+          QUEUE_CONNECTION: sync
+          JWT_SECRET: ci-secret
         run: php vendor/bin/phpunit --colors=always
