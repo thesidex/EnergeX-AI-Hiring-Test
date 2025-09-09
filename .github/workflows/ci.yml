@@ -8,7 +8,21 @@ jobs:
   php-tests:
     runs-on: ubuntu-latest
 
-    # All commands run inside lumen-api/
+    services:
+      mysql:
+        image: mysql:8.0
+        env:
+          MYSQL_ROOT_PASSWORD: root
+          MYSQL_DATABASE: energex_test   # <-- lower-case, matches .env below
+        ports:
+          - 3306:3306
+        options: >-
+          --health-cmd="mysqladmin ping -h 127.0.0.1 -proot --silent"
+          --health-interval=10s
+          --health-timeout=5s
+          --health-retries=10
+
+    # Run all shell steps from lumen-api/
     defaults:
       run:
         working-directory: lumen-api
@@ -22,7 +36,7 @@ jobs:
         with:
           php-version: '8.2'
           tools: composer
-          extensions: mbstring, pdo_sqlite, sqlite, tokenizer, dom, fileinfo
+          extensions: mbstring, pdo_mysql, tokenizer, dom, fileinfo
           coverage: none
 
       - name: Cache Composer
@@ -36,24 +50,20 @@ jobs:
       - name: Install Composer deps
         run: composer install --no-interaction --prefer-dist --no-progress
 
-      - name: Prepare SQLite DB file
+      - name: Write .env for CI (MySQL)
         run: |
-          mkdir -p database
-          : > database/testing.sqlite
-          ls -lah database
-
-      # Write BOTH .env and .env.testing to be extra explicit
-      - name: Write .env and .env.testing (SQLite + array cache)
-        run: |
-          for f in .env .env.testing; do
-          cat > "$f" << 'EOF'
+          cat > .env << 'EOF'
           APP_ENV=testing
           APP_DEBUG=false
           APP_TIMEZONE=UTC
           APP_NAME=energeX-api
 
-          DB_CONNECTION=sqlite
-          DB_DATABASE=database/testing.sqlite
+          DB_CONNECTION=mysql
+          DB_HOST=127.0.0.1
+          DB_PORT=3306
+          DB_DATABASE=energex_test
+          DB_USERNAME=root
+          DB_PASSWORD=root
 
           CACHE_DRIVER=array
           QUEUE_CONNECTION=sync
@@ -64,18 +74,38 @@ jobs:
           JWT_AUD=energeX-clients
           JWT_LEEWAY=60
           EOF
-          done
-          echo "----- .env -----"
-          cat .env
-          echo "----- .env.testing -----"
-          cat .env.testing
+          echo "Wrote lumen-api/.env"
 
-      # Some projects pin DB settings in phpunit.xml; pass env here to override
+      - name: Wait for MySQL (healthy & accepting connections)
+        run: |
+          sudo apt-get update -y
+          sudo apt-get install -y mysql-client
+          echo "Waiting for MySQL healthcheck..."
+          for i in {1..30}; do
+            if mysqladmin ping -h 127.0.0.1 -proot --silent; then
+              echo "MySQL is up!"
+              break
+            fi
+            echo "MySQL not ready yet... ($i)"
+            sleep 2
+          done
+          echo "Showing databases (should include energex_test):"
+          mysql -h 127.0.0.1 -uroot -proot -e 'SHOW DATABASES;'
+
+      # If your tests use DatabaseMigrations (migrate:fresh), you don't need a manual migrate.
+      # Uncomment the next step only if migrations are required prior to tests for seeding, etc.
+      # - name: Run migrations
+      #   run: php artisan migrate --force
+
       - name: Run PHPUnit
         env:
           APP_ENV: testing
-          DB_CONNECTION: sqlite
-          DB_DATABASE: database/testing.sqlite
+          DB_CONNECTION: mysql
+          DB_HOST: 127.0.0.1
+          DB_PORT: 3306
+          DB_DATABASE: energex_test
+          DB_USERNAME: root
+          DB_PASSWORD: root
           CACHE_DRIVER: array
           QUEUE_CONNECTION: sync
           JWT_SECRET: ci-secret
